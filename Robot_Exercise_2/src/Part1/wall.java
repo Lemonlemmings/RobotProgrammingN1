@@ -1,5 +1,7 @@
 package Part1;
 
+import lejos.nxt.Button;
+import lejos.nxt.ButtonListener;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.OpticalDistanceSensor;
@@ -23,22 +25,45 @@ public class wall implements Runnable
 	
 	public void run() 
 	{
+		//Sets up a button listener so the program can end
+		Button.ENTER.addButtonListener(new ButtonListener()
+		{
+			public void buttonPressed(Button b)
+			{
+				m_run = false;
+			}
+
+			public void buttonReleased(Button b) 
+			{
+				//Just leaving it implemented but blank
+			}
+		});
+		
 		while(m_run)
 		{
 			float measuredDistance = ranger.getRange();
-			float diff = idealDistance - measuredDistance;
+			float diff = measuredDistance - idealDistance;
+			boolean direction = true;
 			
-			float speed = Math.min(Math.abs(diff) * 10, 800f);
+			if(diff < 0)
+			{
+				direction = false;
+			}
+			diff = Math.min(Math.abs(diff / 25), 1);
+			float speed = diff * (float)pilot.getMaxTravelSpeed();
+			
+			System.out.println("Speed: "+ speed);
 			pilot.setTravelSpeed(speed);
 			
-			if (diff > 0) 
-			{
+			if (direction) 
+			{				
 				pilot.forward();
 			}
-			else if (diff < 0) 
+			else 
 			{
 				pilot.backward();
 			}
 		}
+		pilot.stop();
 	}
 }
