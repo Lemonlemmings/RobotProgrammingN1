@@ -1,13 +1,16 @@
 package Part2;
 
+import lejos.nxt.Button;
+
 public class LineFollower 
 {
-
 	public static void main(String[] args) 
 	{
-		LineFollowerRun program = new LineFollowerRun();
+		Button.waitForAnyPress();
 		
+		LineFollowerRun program = new LineFollowerRun();		
 		program.run();
+		
+		Button.waitForAnyPress();
 	}
-
 }

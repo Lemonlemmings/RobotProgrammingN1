@@ -7,13 +7,15 @@ import lejos.robotics.Color;
 import lejos.robotics.navigation.DifferentialPilot;
 
 
-public class LineFollowerRun {
+public class LineFollowerRun 
+{
 	private DifferentialPilot pilot;
 	private LightSensor left;
 	private LightSensor right;
 	private boolean quit;
 	
-	LineFollowerRun() {
+	LineFollowerRun() 
+	{
 		pilot = new DifferentialPilot(300, 1720, Motor.A, Motor.B, false);
 		
 		left = new LightSensor(SensorPort.S1);
@@ -25,18 +27,30 @@ public class LineFollowerRun {
 		quit = false;
 	}
 	
-	public void run() {
-		while (!quit) {
+	public void run() 
+	{
+		while (!quit) 
+		{
 			boolean leftLight = left.getLightValue() < 25;
 			boolean rightLight = right.getLightValue() < 25;
 			
-			if (leftLight && rightLight) {
+			if (leftLight && rightLight) 
+			{
 				pilot.stop();
-			} else if (leftLight) {
+			}
+			
+			else if (leftLight) 
+			{
 				pilot.steer(100);
-			} else if (rightLight) {
+			}
+			
+			else if (rightLight) 
+			{
 				pilot.steer(-100);
-			} else {
+			}
+			
+			else 
+			{
 				pilot.forward();
 			}
 		}
