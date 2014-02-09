@@ -1,4 +1,6 @@
-package Part2;
+package Part3;
+
+import java.util.Random;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
@@ -10,8 +12,7 @@ import lejos.robotics.Color;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.util.Delay;
 
-
-public class LineFollowerRun 
+public class GridRun implements Runnable 
 {
 	private DifferentialPilot pilot;
 	private LightSensor left;
@@ -25,8 +26,8 @@ public class LineFollowerRun
 	private final int darkNum = 15;
 	private final int rotaten = 25;
 	
-	LineFollowerRun() 
-	{
+	public GridRun()
+	{		
 		pilot = new DifferentialPilot(300, 1720, Motor.A, Motor.B, false);
 		
 		left  = new LightSensor(SensorPort.S1);
@@ -35,9 +36,9 @@ public class LineFollowerRun
 		left.setFloodlight(Color.WHITE);
 		right.setFloodlight(Color.WHITE);
 	}
-	
+
 	public void run() 
-	{	
+	{
 		Button.ENTER.addButtonListener(new ButtonListener()
 		{
 			public void buttonPressed(Button b) 
@@ -78,7 +79,6 @@ public class LineFollowerRun
 				{
 					System.out.println("Balls");
 					left_steer = true;
-					Delay.msDelay(1000);
 				}
 			}
 			
@@ -92,31 +92,63 @@ public class LineFollowerRun
 				{
 					System.out.println("Cocks");
 					right_steer = true;
-					Delay.msDelay(1000);
 				}
 			}
 			
 		});
 		
-		while (m_run) 
+		while(m_run)
 		{
-			while((calilow_bool == false) || (calihigh_bool == false))
-			{
-				
-			}
+			while(!calilow_bool || !calihigh_bool)
+			{}
 			
+			//EXCEPTION125
 			pilot.forward();
+			Delay.msDelay(200);
 			
-			if(right_steer)
+			if(right_steer && left_steer)
+			{
+				Random gen = new Random();
+				switch(gen.nextInt(4))
+				{
+					case 0 : right();
+							 break;
+					case 1 : left();
+							 break;
+					case 2 : backwards();
+							 break;
+					case 3 : break;
+				}
+			}			
+			else if(right_steer)
 			{
 				pilot.rotate(rotaten);
 				right_steer = false;
 			}
-			if(left_steer)
+			else if(left_steer)
 			{
 				pilot.rotate(-rotaten);
 				left_steer  = false;
 			}
+			
+			right_steer = false;
+			left_steer  = false;
 		}
+
+	}
+	
+	private void right()
+	{
+		pilot.rotate(85);
+	}
+	
+	private void left()
+	{
+		pilot.rotate(-85);
+	}
+	
+	private void backwards()
+	{
+		pilot.rotate(170);
 	}
 }
