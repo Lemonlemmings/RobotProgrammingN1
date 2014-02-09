@@ -1,6 +1,6 @@
 package Part3;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
@@ -25,6 +25,7 @@ public class GridRun implements Runnable
 	private boolean calihigh_bool = false;
 	private final int darkNum = 15;
 	private final int rotaten = 15;
+	private ArrayList<Direction> path = new ArrayList<Direction>();
 	
 	public GridRun()
 	{		
@@ -39,6 +40,11 @@ public class GridRun implements Runnable
 
 	public void run() 
 	{
+		path.add(Direction.UP);//Default which is needed for Path due to sensor values
+		path.add(Direction.UP);
+		path.add(Direction.UP);
+		path.add(Direction.LEFT);
+		
 		Button.ENTER.addButtonListener(new ButtonListener()
 		{
 			public void buttonPressed(Button b) 
@@ -77,7 +83,6 @@ public class GridRun implements Runnable
 			{
 				if(left.getLightValue() < darkNum)
 				{
-					System.out.println("Balls");
 					left_steer = true;
 				}
 			}
@@ -90,36 +95,41 @@ public class GridRun implements Runnable
 			{
 				if(right.getLightValue() < darkNum)
 				{
-					System.out.println("Cocks");
 					right_steer = true;
 				}
 			}
 			
 		});
 		
+		while(!calilow_bool || !calihigh_bool)
+		{}
+		
 		while(m_run)
-		{
-			while(!calilow_bool || !calihigh_bool)
-			{}
-			
+		{			
 			//EXCEPTION125
 			pilot.forward();
 			Delay.msDelay(200);
 			
-			if(right_steer && left_steer)
+			if(path.isEmpty())
 			{
-				Random gen = new Random();
-				switch(gen.nextInt(4))
+				m_run = false;
+			}
+			
+			if(right_steer && left_steer && m_run)
+			{
+				switch(path.get(0).toInt())
 				{
-					case 0 : right();
+					case 3 : right();
 							 break;
-					case 1 : left();
+					case 2 : left();
 							 break;
-					case 2 : backwards();
+					case 1 : backwards();
 							 break;
-					case 3 : break;
+					case 0 : break;
 				}
-			}			
+				path.remove(0);
+				Delay.msDelay(500);
+			}					
 			else if(right_steer)
 			{
 				pilot.rotate(rotaten);
@@ -134,7 +144,8 @@ public class GridRun implements Runnable
 			right_steer = false;
 			left_steer  = false;
 		}
-
+		
+		pilot.stop();
 	}
 	
 	private void right()
