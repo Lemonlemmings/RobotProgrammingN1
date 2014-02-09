@@ -1,5 +1,7 @@
 package Part2;
 
+import lejos.nxt.Button;
+import lejos.nxt.ButtonListener;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
@@ -17,8 +19,11 @@ public class LineFollowerRun
 	
 	private boolean m_run = true;
 	private boolean right_steer = false;
-	private boolean left_steer = false;
-	private final int darkNum = 50; 
+	private boolean left_steer  = false;
+	private boolean calilow_bool = false;
+	private boolean calihigh_bool = false;
+	private final int darkNum = 15;
+	private final int rotaten = 25;
 	
 	LineFollowerRun() 
 	{
@@ -32,7 +37,39 @@ public class LineFollowerRun
 	}
 	
 	public void run() 
-	{
+	{	
+		Button.ENTER.addButtonListener(new ButtonListener()
+		{
+			public void buttonPressed(Button b) 
+			{
+				right.calibrateLow();
+				left.calibrateLow();
+				calilow_bool = true;
+			}
+
+			public void buttonReleased(Button b) 
+			{
+				//Leaving this implemented but unused	
+			}
+			
+		});
+		
+		Button.ESCAPE.addButtonListener(new ButtonListener()
+		{
+			public void buttonPressed(Button b) 
+			{
+				right.calibrateHigh();
+				left.calibrateHigh();
+				calihigh_bool= true;
+			}
+
+			public void buttonReleased(Button b) 
+			{
+				//Leaving this implemented but unused	
+			}
+			
+		});
+		
 		SensorPort.S1.addSensorPortListener(new SensorPortListener()
 		{
 			public void stateChanged(SensorPort aSource, int aOldValue,	int aNewValue) 
@@ -41,7 +78,7 @@ public class LineFollowerRun
 				{
 					System.out.println("Balls");
 					left_steer = true;
-					Delay.msDelay(2000);
+					Delay.msDelay(1000);
 				}
 			}
 			
@@ -55,7 +92,7 @@ public class LineFollowerRun
 				{
 					System.out.println("Cocks");
 					right_steer = true;
-					Delay.msDelay(2000);
+					Delay.msDelay(1000);
 				}
 			}
 			
@@ -63,16 +100,22 @@ public class LineFollowerRun
 		
 		while (m_run) 
 		{
+			while((calilow_bool == false) && (calihigh_bool == false))
+			{
+				
+			}
+			
 			pilot.forward();
+			
 			if(right_steer)
 			{
-				pilot.steer(30);
+				pilot.rotate(rotaten);
 				right_steer = false;
 			}
 			if(left_steer)
 			{
-				pilot.steer(-30);
-				left_steer = false;
+				pilot.rotate(-rotaten);
+				left_steer  = false;
 			}
 		}
 	}
