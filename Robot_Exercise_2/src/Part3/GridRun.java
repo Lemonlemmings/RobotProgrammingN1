@@ -8,7 +8,6 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
-import lejos.nxt.Sound;
 import lejos.robotics.Color;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.util.Delay;
@@ -45,10 +44,7 @@ public class GridRun implements Runnable
 		path.add(Direction.UP);
 		path.add(Direction.UP);
 		path.add(Direction.LEFT);
-		path.add(Direction.UP);
-		path.add(Direction.UP);
 		path.add(Direction.RIGHT);
-		path.add(Direction.UP);
 		path.add(Direction.DOWN);
 		
 		Button.ENTER.addButtonListener(new ButtonListener()
@@ -107,10 +103,8 @@ public class GridRun implements Runnable
 			
 		});
 		
-		Sound.setVolume(Sound.VOL_MAX);
-		
 		while(!calilow_bool || !calihigh_bool)
-		{Thread.yield();}
+		{}
 		
 		while(m_run)
 		{			
@@ -125,8 +119,6 @@ public class GridRun implements Runnable
 			
 			if(right_steer && left_steer && m_run)
 			{
-				Sound.beepSequenceUp();
-				//pilot.stop();
 				switch(path.get(0).toInt())
 				{
 					case 3 : right();
@@ -160,13 +152,13 @@ public class GridRun implements Runnable
 	
 	private void right()
 	{
-		pilot.travel(-70);
+		pilot.travel(700);
 		pilot.rotate(85);
 	}
 	
 	private void left()
 	{
-		pilot.travel(-70);
+		pilot.travel(700);
 		pilot.rotate(-85);
 	}
 	

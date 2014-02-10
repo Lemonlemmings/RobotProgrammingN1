@@ -8,7 +8,7 @@ public class Grid
 	{
 		Button.waitForAnyPress();
 		
-		GridRun runG = new GridRun();
+		GridRunnable runG = new GridRunnable();
 		runG.run();
 		
 		Button.waitForAnyPress();
