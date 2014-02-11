@@ -13,10 +13,12 @@ import lejos.util.Delay;
 
 public class LineFollowerRun 
 {
+    //Variables which are used for the robot
 	private DifferentialPilot pilot;
 	private LightSensor left;
 	private LightSensor right;
 	
+    //Other variables
 	private boolean m_run = true;
 	private boolean right_steer = false;
 	private boolean left_steer  = false;
@@ -25,19 +27,23 @@ public class LineFollowerRun
 	private final int darkNum = 15;
 	private final int rotaten = 15;
 	
+    /*
+     * This constructor initalises all of the important variables in the program.
+     */
 	LineFollowerRun() 
 	{
 		pilot = new DifferentialPilot(300, 1720, Motor.A, Motor.B, false);
 		
 		left  = new LightSensor(SensorPort.S1);
 		right = new LightSensor(SensorPort.S2);
-		
-		left.setFloodlight(Color.WHITE);
-		right.setFloodlight(Color.WHITE);
 	}
 	
+    /*
+     * This is the main running point of the program
+     */
 	public void run() 
 	{	
+        //This is a button listener designed to set the calibration of the "dark" patches
 		Button.ENTER.addButtonListener(new ButtonListener()
 		{
 			public void buttonPressed(Button b) 
@@ -54,6 +60,7 @@ public class LineFollowerRun
 			
 		});
 		
+        //This is a button listener designed to set the calibration of the "light" patches
 		Button.ESCAPE.addButtonListener(new ButtonListener()
 		{
 			public void buttonPressed(Button b) 
@@ -70,13 +77,13 @@ public class LineFollowerRun
 			
 		});
 		
+        //This is a sensorport listener for the light sensor
 		SensorPort.S1.addSensorPortListener(new SensorPortListener()
 		{
 			public void stateChanged(SensorPort aSource, int aOldValue,	int aNewValue) 
 			{
 				if(left.getLightValue() < darkNum)
 				{
-					System.out.println("Balls");
 					left_steer = true;
 					Delay.msDelay(1000);
 				}
@@ -84,13 +91,13 @@ public class LineFollowerRun
 			
 		});
 		
+        //This is a sensorport listener for the light sensor
 		SensorPort.S2.addSensorPortListener(new SensorPortListener()
 		{
 			public void stateChanged(SensorPort aSource, int aOldValue,	int aNewValue) 
 			{
 				if(right.getLightValue() < darkNum)
 				{
-					System.out.println("Cocks");
 					right_steer = true;
 					Delay.msDelay(1000);
 				}
@@ -100,13 +107,16 @@ public class LineFollowerRun
 		
 		while (m_run) 
 		{
+            //A while loop that does nothing, but looks like it should!
 			while((calilow_bool == false) || (calihigh_bool == false))
 			{
 				
 			}
 			
+            //Starts the robot moving forward.
 			pilot.forward();
 			
+            //This block of code makes the robot rotate based on which LightSensor has crossed the black line
 			if(right_steer)
 			{
 				pilot.rotate(rotaten);
