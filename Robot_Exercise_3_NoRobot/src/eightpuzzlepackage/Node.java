@@ -2,30 +2,32 @@ package eightpuzzlepackage;
 
 public class Node<ACTION, STATE>
 {
-	private ACTION[] _actions;
-	private STATE _state;
+	private ACTION[] actions;
+	private STATE state;
 	
-	@SuppressWarnings
-	public Node(Node<ACTION, STATE> _parent, STATE _state)
+	@SuppressWarnings("unchecked")
+	public Node(Node<ACTION, STATE> _parent, ACTION _action, STATE _state)
 	{
-		super();
-		_actions = new (ACTION)(Object [_parent.actionSize() + 1]); 
-		this._actions = _parent.getActions();
-		this._state = _state;
-	}
+		ACTION[] parentArray = _parent.getActions();
+		
+		this.actions = (ACTION[])(new Object[parentArray.length + 1]); 
 	
-	private int actionSize()
-	{
-		return _actions.length;
+		for (int i = 0; i < parentArray.length; i++) {
+			actions[i] = parentArray[i];
+		}
+		
+		actions[parentArray.length] = _action;
+	
+		this.state = _state;
 	}
 
 	public STATE getState()
 	{
-		return _state;
+		return state;
 	}
 	
-	public Node<ACTION, STATE> getActions()
+	public ACTION[] getActions()
 	{
-		return _actions;
+		return actions;
 	}
 }

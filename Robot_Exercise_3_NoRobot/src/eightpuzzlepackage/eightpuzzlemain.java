@@ -10,7 +10,7 @@ public class eightpuzzlemain
 	{
 		EqualityGoalTest<EightPuzzle> _goal = new EqualityGoalTest<EightPuzzle>(EightPuzzle.orderedEightPuzzle());
 		
-		EightPuzzle puzzle = new EightPuzzle(EightPuzzle.randomEightPuzzle());		
+		EightPuzzle puzzle = new EightPuzzle(EightPuzzle.randomEightPuzzle());
 		EightPuzzle tempPuzzle = new EightPuzzle(puzzle);
 		
 		int i = 0;
@@ -36,6 +36,6 @@ public class eightpuzzlemain
 		}
 		
 		System.out.println(puzzle.toString() + "\n\n");
-		System.out.println(EightPuzzle.orderedEightPuzzle().toString());		
+		System.out.println(EightPuzzle.orderedEightPuzzle().toString());
 	}
 }
