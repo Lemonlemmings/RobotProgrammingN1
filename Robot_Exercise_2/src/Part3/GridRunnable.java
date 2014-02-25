@@ -57,7 +57,10 @@ public class GridRunnable implements Runnable
 		h_cal = false;
 		
         //This is the scriptable path, I hope this is what you wanted
+<<<<<<< HEAD
 		path.add(Direction.UP);
+=======
+>>>>>>> 1d74186ba92539d750106ee1010b21e347b7c0cc
 		path.add(Direction.UP);
 		path.add(Direction.LEFT);
 		path.add(Direction.RIGHT);
@@ -250,11 +253,14 @@ public class GridRunnable implements Runnable
 			}
 			path.remove(0);
 			
+<<<<<<< HEAD
 			if(path.isEmpty())
 			{
 				m_run = false;
 			}
 			
+=======
+>>>>>>> 1d74186ba92539d750106ee1010b21e347b7c0cc
             //Start the robot moving forward again, no point in hanging around here.
 			pilot.forward();
 		}
@@ -271,6 +277,7 @@ public class GridRunnable implements Runnable
         //Then I think it probably exists
 		if((l_dark || r_dark) && !(l_dark && r_dark))
 		{
+<<<<<<< HEAD
 			boolean r_false;
 			
 			if(l_dark)
@@ -282,13 +289,19 @@ public class GridRunnable implements Runnable
 				r_false = false;
 			}
 			
+=======
+>>>>>>> 1d74186ba92539d750106ee1010b21e347b7c0cc
             //This if statement checks which trigger sets off the XOR statement
 			if(r_dark)
 			{
 				pilot.steer(50, 2);
 			}
             //This if statement checks which trigger sets off the XOR statement
+<<<<<<< HEAD
 			if(r_false)
+=======
+			if(l_dark)
+>>>>>>> 1d74186ba92539d750106ee1010b21e347b7c0cc
 			{
 				pilot.steer(50, -2);
 			}
