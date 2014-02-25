@@ -29,6 +29,8 @@ public class eightpuzzlemain
 			puzzle.randomMove();
 			
 		}
+
+		System.out.println(i);
 		
 		if(_goal.isGoal(puzzle))
 		{
