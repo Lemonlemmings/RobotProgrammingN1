@@ -1,15 +1,22 @@
 package eightpuzzlepackage;
 
-import rp13.search.interfaces.SuccessorFunction;
-
-public class Node<ActionT, StateT extends SuccessorFunction<ActionT, StateT>>
+public class Node<StateT, ActionT>
 {
-	private ActionT[] actions;
 	private StateT state;
+	private ActionT[] actions;
 	
 	@SuppressWarnings("unchecked")
-	public Node(Node<ActionT, StateT> _parent, ActionT _action, StateT _state)
+	public Node(StateT _state)
 	{
+		this.actions = (ActionT[]) (new Object[0]);
+		this.state = _state;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Node(Node<StateT, ActionT> _parent, StateT _state, ActionT _action)
+	{
+		this.state = _state;
+		
 		ActionT[] parentArray = _parent.getActions();
 		
 		this.actions = (ActionT[])(new Object[parentArray.length + 1]); 
@@ -19,8 +26,6 @@ public class Node<ActionT, StateT extends SuccessorFunction<ActionT, StateT>>
 		}
 		
 		actions[parentArray.length] = _action;
-	
-		this.state = _state;
 	}
 
 	public StateT getState()
@@ -32,4 +37,5 @@ public class Node<ActionT, StateT extends SuccessorFunction<ActionT, StateT>>
 	{
 		return actions;
 	}
+	
 }
