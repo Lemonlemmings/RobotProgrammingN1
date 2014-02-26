@@ -1,6 +1,8 @@
 package eightpuzzle;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import eightpuzzle.EightPuzzle.PuzzleMove;
 import eightpuzzlepackage.Node;
@@ -24,28 +26,28 @@ public class EightPuzzleSuccessorFunction implements
 	 * 
 	 */
 	@Override
-	public void getSuccessors(Node<EightPuzzle, PuzzleMove> _node,
-			List<Node<EightPuzzle, PuzzleMove>> _successors) {
-		assert (_successors != null);
+	public void getSuccessors(Node<EightPuzzle, PuzzleMove> node,
+			LinkedList<Node<EightPuzzle, PuzzleMove>> successors,
+			Set<EightPuzzle> explored) {
+		
+		assert (successors != null);
 
 		// for each of the moves that are available
 		for (PuzzleMove move : PuzzleMove.values()) {
 
 			// check if it is possible
-			if (_node.getState().isPossibleMove(move)) {
+			if (node.getState().isPossibleMove(move)) {
 
 				// create a copy of the input state as we don't want to change
 				// it
-				EightPuzzle successor = new EightPuzzle(_node.getState());
+				EightPuzzle successor = new EightPuzzle(node.getState());
 				// apply the move
 				successor.makeMove(move);
 				
-				Node<EightPuzzle, PuzzleMove> newNode= new Node<EightPuzzle, PuzzleMove>(_node, successor, move);
-				
-				
-				// store the move and action together in a pair and add to
-				// successor list
-				_successors.add(newNode);
+				if (explored.contains(successor)) { // DOES THIS EVEN WORK OR USE .equals
+					Node<EightPuzzle, PuzzleMove> newNode = new Node<EightPuzzle, PuzzleMove>(node, successor, move);
+					successors.push(newNode);
+				}
 			}
 
 		}

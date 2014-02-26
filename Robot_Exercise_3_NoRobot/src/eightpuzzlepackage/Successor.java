@@ -1,11 +1,11 @@
 package eightpuzzlepackage;
 
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Set;
 
 public interface Successor<StateT, ActionT>  {
 	
 	public void getSuccessors(Node<StateT, ActionT> node,
-			List<Node<StateT, ActionT>> _successors);
+			LinkedList<Node<StateT, ActionT>> successors, 
+			Set<StateT> explored);
 }
-
-
