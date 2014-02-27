@@ -27,9 +27,9 @@ public class EightPuzzleSuccessorFunction implements
 	 */
 	@Override
 	public void getSuccessors(Node<EightPuzzle, PuzzleMove> node,
-			LinkedList<Node<EightPuzzle, PuzzleMove>> successors,
-			Set<EightPuzzle> explored) {
-		
+                              LinkedList<Node<EightPuzzle, PuzzleMove>> successors,
+                              Set<EightPuzzle> explored)
+        {		
 		assert (successors != null);
 
 		// for each of the moves that are available
