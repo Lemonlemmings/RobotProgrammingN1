@@ -15,19 +15,6 @@ public class ActionStatePair<ActionT, StateT>
 	private final ActionT m_action;
 	private final StateT m_state;
 
-	/**
-	 * Construct the pair from input values.
-	 * 
-	 * @param _action
-	 * @param _state
-	 */
-	public ActionStatePair(StateT _state)
-	{
-		m_state = _state;
-		m_action = null;
-	}
-
-	
 	public ActionStatePair(ActionT _action, StateT _state)
 	{
 		m_action = _action;
@@ -54,6 +41,11 @@ public class ActionStatePair<ActionT, StateT>
 		return m_state;
 	}
 
+	public boolean equals(ActionStatePair<ActionT, StateT> e)
+	{
+		return ((e.getState().equals(m_state)) && (e.getAction().equals(m_action)));
+	}
+	
 	@Override
 	public String toString()
 	{

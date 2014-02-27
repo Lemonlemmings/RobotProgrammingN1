@@ -13,13 +13,14 @@ public class eightpuzzlemain
 	{
 		EightPuzzle puzzle = EightPuzzle.randomEightPuzzle(2);
 		
-		System.out.println(puzzle.equals(EightPuzzle.orderedEightPuzzle()));
+		System.out.println(puzzle.toString());		
+		System.out.println(puzzle.equals(EightPuzzle.orderedEightPuzzle())+"\n");
 		
 		SuccessorFunction<PuzzleMove, EightPuzzle> successorFn = new EightPuzzleSuccessorFunction();
 		
 		Search<EightPuzzle, PuzzleMove> search = new Search<EightPuzzle, PuzzleMove>();
 		
-		System.out.println(search.search(puzzle, new EqualityGoalTest<EightPuzzle>(EightPuzzle.orderedEightPuzzle()), successorFn).toString());		
+		System.out.println(search.search(puzzle, new EqualityGoalTest<EightPuzzle>(EightPuzzle.orderedEightPuzzle()), successorFn, "df31").toString());		
 	}
 }
 
