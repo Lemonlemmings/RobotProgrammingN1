@@ -8,8 +8,7 @@ package rp13.search.interfaces;
  * @param <ItemT>
  *            The type of the item contained in the agenda.
  */
-public interface SortedAgenda<ItemT extends Comparable<ItemT>> extends
-		Agenda<ItemT>
+public interface SortedAgenda<ItemT extends Comparable<ItemT>> extends	Agenda<ItemT>
 {
 
 	/**

@@ -21,6 +21,13 @@ public class ActionStatePair<ActionT, StateT>
 	 * @param _action
 	 * @param _state
 	 */
+	public ActionStatePair(StateT _state)
+	{
+		m_state = _state;
+		m_action = null;
+	}
+
+	
 	public ActionStatePair(ActionT _action, StateT _state)
 	{
 		m_action = _action;

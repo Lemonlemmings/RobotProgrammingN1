@@ -23,9 +23,9 @@ public interface SuccessorFunction<ActionT, StateT>
 	 * list, along with the action that generated it. The _successors list is
 	 * not cleared by this method.
 	 * 
-	 * @param _state
-	 * @param _successors
+	 * @param node
+	 * @param frontier
 	 */
-	public void getSuccessors(StateT _state, List<ActionStatePair<ActionT, StateT>> _successors);
+	public void getSuccessors(StateT node, List<ActionStatePair<ActionT, StateT>> frontier);
 
 }

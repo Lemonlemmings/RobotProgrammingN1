@@ -1,55 +1,71 @@
 package eightpuzzlepackage;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
+import rp13.search.interfaces.SuccessorFunction;
+import rp13.search.util.ActionStatePair;
 import rp13.search.util.EqualityGoalTest;
 
 public class Search<StateT, ActionT>
 {
-	private LinkedList<Node<StateT, ActionT>> frontier;
+	private List<ActionStatePair<ActionT, StateT>> frontier;
+	private SuccessorFunction<ActionT, StateT> successorFn;
+	private EqualityGoalTest<StateT> goaltest;
 	private Set<StateT> explored;
-	
-	public Search(LinkedList<Node<StateT, ActionT>> frontier, Set<StateT> explored)
+
+	public Search()
 	{
-		this.frontier = frontier;
-		this.explored = explored;
+		
+	}
+
+	public StateT search(StateT initialState,
+						 EqualityGoalTest<StateT> goaltest,
+						 SuccessorFunction<ActionT, StateT> successorFn)
+	{
+		ActionStatePair<ActionT, StateT> initialNode = new ActionStatePair<ActionT, StateT>(initialState);
+		
+		this.frontier    = new LinkedList<ActionStatePair<ActionT, StateT>>();
+		this.explored    = new HashSet<StateT>();
+		this.successorFn = successorFn;
+		this.goaltest    = goaltest;
+		
+		frontier.add(initialNode);
+
+		int depth = 0;
+		
+		return nextDepth(depth++, new ActionStatePair<ActionT, StateT>(null, initialState)); 
 	}
 	
-	public Node<StateT, ActionT> search(StateT initialState, StateT goalState, Successor<StateT, ActionT> successorFn)
+	private StateT nextDepth(int d, ActionStatePair<ActionT, StateT> node)
 	{
-		//EqualityGoalTest<StateT> goal = new EqualityGoalTest<StateT>(goalState);
+		List<ActionStatePair<ActionT, StateT>> frontier = new LinkedList<ActionStatePair<ActionT, StateT>>();
 		
-		Node<StateT, ActionT> initialNode = new Node<StateT, ActionT>(initialState);
-		
-		frontier.push(initialNode);
-		
-		int i = 0;
-		
-		while (!frontier.isEmpty()) {
-			Node<StateT, ActionT> node = frontier.pop();
-			
-			// Node is at the goal
-			if (node.getState().equals(goalState)) {
-				return node;
-			}
-			
-			// Otherwise generate successors
-			
-			explored.add(node.getState());
-			
-			successorFn.getSuccessors(node, frontier, explored);
-			
-
-			//EightPuzzleSuccessorFunction successorFn = new EightPuzzleSuccessorFunction();
-			
-			//successorFn.getSuccessors(node, frontier);
-			
-			System.out.println("Iteration: " + ++i + " Explored:" + explored.size() + " Fronter:" + frontier.size());
-			
-			
-			
+		if (goaltest.isGoal(node.getState()))
+		{
+			return node.getState();
 		}
-		return null;
+		else if(d <= 31)
+		{
+			successorFn.getSuccessors(node.getState(), frontier);
+		}
+		else
+		{
+			return node.getState();
+		}
+		
+		while(!frontier.isEmpty())
+		{
+			StateT potentialCompletion = nextDepth(d+1, frontier.remove(frontier.size() - 1));
+			
+			if(goaltest.isGoal(potentialCompletion))
+			{
+				return potentialCompletion;
+			}
+		}
+		
+		return null;		
 	}
 }

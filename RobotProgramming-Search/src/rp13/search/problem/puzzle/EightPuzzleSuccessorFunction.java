@@ -26,7 +26,6 @@ public class EightPuzzleSuccessorFunction implements SuccessorFunction<PuzzleMov
 	 */
 	public void getSuccessors(EightPuzzle _state, List<ActionStatePair<PuzzleMove, EightPuzzle>> _successors)
 	{
-
 		assert (_successors != null);
 
 		// for each of the moves that are available
@@ -44,7 +43,7 @@ public class EightPuzzleSuccessorFunction implements SuccessorFunction<PuzzleMov
 				successor.makeMove(move);
 				// store the move and action together in a pair and add to
 				// successor list
-				_successors	.add(new ActionStatePair<EightPuzzle.PuzzleMove, EightPuzzle>(move, successor));
+				_successors.add(new ActionStatePair<EightPuzzle.PuzzleMove, EightPuzzle>(move, successor));
 			}
 
 		}
@@ -74,5 +73,4 @@ public class EightPuzzleSuccessorFunction implements SuccessorFunction<PuzzleMov
 		}
 
 	}
-
 }
