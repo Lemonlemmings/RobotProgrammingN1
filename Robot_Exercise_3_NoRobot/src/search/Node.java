@@ -1,4 +1,4 @@
-package eightpuzzlepackage;
+package search;
 
 import java.util.LinkedList;
 

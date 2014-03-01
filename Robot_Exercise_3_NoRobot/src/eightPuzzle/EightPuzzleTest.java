@@ -1,4 +1,4 @@
-package eightpuzzlepackage;
+package eightPuzzle;
 
 
 import java.util.LinkedList;
@@ -7,17 +7,20 @@ import rp13.search.interfaces.SuccessorFunction;
 import rp13.search.problem.puzzle.EightPuzzle;
 import rp13.search.problem.puzzle.EightPuzzle.PuzzleMove;
 import rp13.search.problem.puzzle.EightPuzzleSuccessorFunction;
+import search.Node;
+import search.UninformedSearch;
+import search.UninformedSearchType;
 
-public class eightpuzzlemain
+public class EightPuzzleTest
 {
 	public static void main(String[] args)
 	{
 		// Create the two states
-		EightPuzzle puzzle = EightPuzzle.randomEightPuzzle();
+		EightPuzzle start = EightPuzzle.randomEightPuzzle();
 		EightPuzzle goal = EightPuzzle.orderedEightPuzzle();
 		
 		System.out.println("Initial state:");
-		System.out.println(puzzle.toString());
+		System.out.println(start.toString());
 
 		System.out.println("Goal state:");
 		System.out.println(goal.toString());
@@ -29,7 +32,7 @@ public class eightpuzzlemain
 				UninformedSearchType.BFS;
 		
 		UninformedSearch<EightPuzzle, PuzzleMove> search =
-				new UninformedSearch<EightPuzzle, PuzzleMove>(searchType, successorFn, puzzle, goal);
+				new UninformedSearch<EightPuzzle, PuzzleMove>(searchType, successorFn, start, goal);
 		
 		Node<EightPuzzle, PuzzleMove> node = search.search();
 	
