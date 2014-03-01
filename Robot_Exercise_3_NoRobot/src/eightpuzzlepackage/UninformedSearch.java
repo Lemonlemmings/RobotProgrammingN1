@@ -11,11 +11,6 @@ import rp13.search.util.ActionStatePair;
 
 public class UninformedSearch<StateT, ActionT>
 {
-	public enum UninformedSearchType {
-		BFS,
-		DFS
-	}
-
 	private UninformedSearchType searchType;
 	
 	private Deque<Node<StateT, ActionT>> frontier;
@@ -26,7 +21,13 @@ public class UninformedSearch<StateT, ActionT>
 	private StateT initialState;
 	private StateT goalState;
 	
-	
+	/** Constructs an instance of UninformedSearch
+	 * 
+	 * @param searchType The type of search to perform (DFS or BFS)
+	 * @param successorFn The function which provides successor states
+	 * @param initialState The initial state that the search will start with
+	 * @param goalState The goal state that the search needs to reach
+	 */
 	public UninformedSearch(UninformedSearchType searchType, SuccessorFunction<ActionT, StateT> successorFn, StateT initialState, StateT goalState)
 	{
 		this.searchType = searchType;
@@ -37,6 +38,13 @@ public class UninformedSearch<StateT, ActionT>
 		this.goalState = goalState;
 	}
 	
+	/**
+	 * Performs the search
+	 * 
+	 * @return The node with a path to its parents if a
+	 *         goal is found, otherwise null if all
+	 *         possible states have been exhausted.
+	 */
 	public Node<StateT, ActionT> search()
 	{
 		// Frontier list 
@@ -81,6 +89,7 @@ public class UninformedSearch<StateT, ActionT>
 			}
 		}
 		
+		// If there is no solution
 		return null;
 	}
 }

@@ -25,8 +25,8 @@ public class eightpuzzlemain
 		SuccessorFunction<PuzzleMove, EightPuzzle> successorFn =
 				new EightPuzzleSuccessorFunction();
 		
-		UninformedSearch.UninformedSearchType searchType =
-				UninformedSearch.UninformedSearchType.BFS;
+		UninformedSearchType searchType =
+				UninformedSearchType.BFS;
 		
 		UninformedSearch<EightPuzzle, PuzzleMove> search =
 				new UninformedSearch<EightPuzzle, PuzzleMove>(searchType, successorFn, puzzle, goal);
