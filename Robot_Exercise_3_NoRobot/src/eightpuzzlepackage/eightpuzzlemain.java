@@ -1,79 +1,49 @@
 package eightpuzzlepackage;
 
 
+import java.util.LinkedList;
+
 import rp13.search.interfaces.SuccessorFunction;
 import rp13.search.problem.puzzle.EightPuzzle;
 import rp13.search.problem.puzzle.EightPuzzle.PuzzleMove;
 import rp13.search.problem.puzzle.EightPuzzleSuccessorFunction;
-import rp13.search.util.EqualityGoalTest;
 
 public class eightpuzzlemain
 {
 	public static void main(String[] args)
 	{
-		EightPuzzle puzzle = EightPuzzle.randomEightPuzzle(2);
+		// Create the two states
+		EightPuzzle puzzle = EightPuzzle.randomEightPuzzle();
+		EightPuzzle goal = EightPuzzle.orderedEightPuzzle();
 		
-		System.out.println(puzzle.toString());		
-		System.out.println(puzzle.equals(EightPuzzle.orderedEightPuzzle())+"\n");
+		System.out.println("Initial state:");
+		System.out.println(puzzle.toString());
+
+		System.out.println("Goal state:");
+		System.out.println(goal.toString());
 		
-		SuccessorFunction<PuzzleMove, EightPuzzle> successorFn = new EightPuzzleSuccessorFunction();
+		SuccessorFunction<PuzzleMove, EightPuzzle> successorFn =
+				new EightPuzzleSuccessorFunction();
 		
-		Search<EightPuzzle, PuzzleMove> search = new Search<EightPuzzle, PuzzleMove>();
+		UninformedSearch.UninformedSearchType searchType =
+				UninformedSearch.UninformedSearchType.BFS;
 		
-		System.out.println(search.search(puzzle, new EqualityGoalTest<EightPuzzle>(EightPuzzle.orderedEightPuzzle()), successorFn, "df31").toString());		
+		UninformedSearch<EightPuzzle, PuzzleMove> search =
+				new UninformedSearch<EightPuzzle, PuzzleMove>(searchType, successorFn, puzzle, goal);
+		
+		Node<EightPuzzle, PuzzleMove> node = search.search();
+	
+		System.out.println("Solution found!\n");
+		
+		System.out.println("Depth: " + node.getDepth());
+		System.out.println();
+	
+		LinkedList<PuzzleMove> actions = node.getActionArray();
+		
+		System.out.println("Actions:");
+		
+		for (PuzzleMove i : actions) {
+			System.out.println(i.toString());
+		}
 	}
 }
-
-/*
-EqualityGoalTest<EightPuzzle> goal = new EqualityGoalTest<EightPuzzle>(EightPuzzle.orderedEightPuzzle());
-
-LinkedList<Node<EightPuzzle, PuzzleMove>> frontier = new LinkedList<Node<EightPuzzle, PuzzleMove>>();
-Set<EightPuzzle> explored = new HashSet<EightPuzzle>();
-
-SuccessorFunction<PuzzleMove,EightPuzzle> successorFn = new EightPuzzleSuccessorFunction();
-
-Search<EightPuzzle, PuzzleMove> search = new Search<EightPuzzle, PuzzleMove>(frontier, explored);
-
-Node<EightPuzzle, PuzzleMove> solution = search.search(puzzle, EightPuzzle.orderedEightPuzzle(), successorFn);
-
-System.out.println(solution.toString() + "\n\n");
-System.out.println(EightPuzzle.orderedEightPuzzle().toString());
-*/
-
-
-
-
-
-/*
- * Our solution without the search system
-EqualityGoalTest<EightPuzzle> _goal = new EqualityGoalTest<EightPuzzle>(EightPuzzle.orderedEightPuzzle());
-
-EightPuzzle puzzle = new EightPuzzle(EightPuzzle.randomEightPuzzle());
-EightPuzzle tempPuzzle = new EightPuzzle(puzzle);
-
-int i = 0;
-
-
-
-while(!(_goal.isGoal(puzzle)))
-{
-	i++;
-	
-	if(i > 31)
-	{
-		puzzle = tempPuzzle;
-	}
-	
-	puzzle.randomMove();
-	
-}
-
-System.out.println(i);
-
-if(_goal.isGoal(puzzle))
-{
-	System.out.println("Done!");
-}
-
-System.out.println(puzzle.toString() + "\n\n");
-System.out.println(EightPuzzle.orderedEightPuzzle().toString());*/
