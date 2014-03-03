@@ -2,51 +2,48 @@ package stringPuzzle;
 
 import java.util.LinkedList;
 
-import rp13.search.interfaces.SuccessorFunction;
+import rp13.search.util.EqualityGoalTest;
 import search.Node;
-import search.UninformedSearch;
-import search.UninformedSearchType;
+import search.Search;
+import search.Search.SearchType;
 
 public class StringPuzzleTest
 {
 	public static void main(String[] args)
 	{
 		// Create the two states
-		String start = "dictionary";
-		String goal = "indicatory";
-		
-//		for (int i = 0; i < 1000; i++) {
-//			start = StringPuzzle.performMove(start, StringMove.randomMove(start));
-//		}
-		
+		String goal = "dictionary";
+		String start = "ndicatiory";
+
 		System.out.println("Initial state:");
 		System.out.println(start);
 
 		System.out.println("Goal state:");
 		System.out.println(goal);
+
+		Search<String, StringMove> search = new Search<String, StringMove>(
+				new StringPuzzleSuccessorFunction(),
+				new EqualityGoalTest<String>(goal));
+
+		//Node<String, StringMove> node = search.search(SearchType.BFS, start);
+
+		String hi = search.search(new StringPuzzleHeuristic(), start);
 		
-		SuccessorFunction<StringMove, String> successorFn =
-				new StringPuzzleSuccessorFunction();
-		
-		UninformedSearchType searchType =
-				UninformedSearchType.BFS;
-		
-		UninformedSearch<String, StringMove> search =
-				new UninformedSearch<String, StringMove>(searchType, successorFn, start, goal);
-		
-		Node<String, StringMove> node = search.search();
-	
+		/*
 		System.out.println("Solution found!\n");
-		
-		System.out.println("Depth: " + node.getDepth());
+
+		System.out.println("Depth: " + node.getDepth(0));
 		System.out.println();
-	
-		LinkedList<StringMove> actions = node.getActionArray();
-		
+
+		LinkedList<StringMove> actions = new LinkedList<StringMove>();
+		node.getActionArray(actions);
+
 		System.out.println("Actions:");
-		
-		for (StringMove i : actions) {
+
+		for (StringMove i : actions)
+		{
 			System.out.println(i.toString());
 		}
+		*/
 	}
 }

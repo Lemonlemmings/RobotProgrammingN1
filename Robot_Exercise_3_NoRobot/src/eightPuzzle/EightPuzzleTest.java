@@ -1,15 +1,14 @@
 package eightPuzzle;
 
-
 import java.util.LinkedList;
 
-import rp13.search.interfaces.SuccessorFunction;
 import rp13.search.problem.puzzle.EightPuzzle;
 import rp13.search.problem.puzzle.EightPuzzle.PuzzleMove;
 import rp13.search.problem.puzzle.EightPuzzleSuccessorFunction;
+import rp13.search.util.EqualityGoalTest;
 import search.Node;
-import search.UninformedSearch;
-import search.UninformedSearchType;
+import search.Search;
+import search.Search.SearchType;
 
 public class EightPuzzleTest
 {
@@ -18,35 +17,33 @@ public class EightPuzzleTest
 		// Create the two states
 		EightPuzzle start = EightPuzzle.randomEightPuzzle();
 		EightPuzzle goal = EightPuzzle.orderedEightPuzzle();
-		
+
 		System.out.println("Initial state:");
 		System.out.println(start.toString());
 
 		System.out.println("Goal state:");
 		System.out.println(goal.toString());
-		
-		SuccessorFunction<PuzzleMove, EightPuzzle> successorFn =
-				new EightPuzzleSuccessorFunction();
-		
-		UninformedSearchType searchType =
-				UninformedSearchType.BFS;
-		
-		UninformedSearch<EightPuzzle, PuzzleMove> search =
-				new UninformedSearch<EightPuzzle, PuzzleMove>(searchType, successorFn, start, goal);
-		
-		Node<EightPuzzle, PuzzleMove> node = search.search();
-	
-		System.out.println("Solution found!\n");
-		
-		System.out.println("Depth: " + node.getDepth());
+
+		Search<EightPuzzle, PuzzleMove> search = new Search<EightPuzzle, PuzzleMove>(
+												 new EightPuzzleSuccessorFunction(),
+												 new EqualityGoalTest<EightPuzzle>(goal));
+
+		//Node<EightPuzzle, PuzzleMove> node = search.search(SearchType.BFS, start);
+		EightPuzzle puzzle = search.search(new EightPuzzleHeuristic(), start);
+		System.out.println(puzzle.toString());
+		/*System.out.println("Solution found!\n");
+
+		System.out.println("Depth: " + node.getDepth(0));
 		System.out.println();
-	
-		LinkedList<PuzzleMove> actions = node.getActionArray();
-		
+
+		LinkedList<PuzzleMove> actions = new LinkedList<PuzzleMove>();
+		node.getActionArray(actions);
+
 		System.out.println("Actions:");
-		
-		for (PuzzleMove i : actions) {
+
+		for (PuzzleMove i : actions)
+		{
 			System.out.println(i.toString());
-		}
+		}*/
 	}
 }
