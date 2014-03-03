@@ -28,10 +28,8 @@ public class EightPuzzleTest
 												 new EightPuzzleSuccessorFunction(),
 												 new EqualityGoalTest<EightPuzzle>(goal));
 
-		//Node<EightPuzzle, PuzzleMove> node = search.search(SearchType.BFS, start);
-		EightPuzzle puzzle = search.search(new EightPuzzleHeuristic(), start);
-		System.out.println(puzzle.toString());
-		/*System.out.println("Solution found!\n");
+		Node<EightPuzzle, PuzzleMove> node = search.search(SearchType.BFS, start, 31);
+		System.out.println("Solution found!\n");
 
 		System.out.println("Depth: " + node.getDepth(0));
 		System.out.println();
@@ -44,6 +42,6 @@ public class EightPuzzleTest
 		for (PuzzleMove i : actions)
 		{
 			System.out.println(i.toString());
-		}*/
+		}
 	}
 }
