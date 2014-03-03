@@ -266,6 +266,60 @@ public class EightPuzzle
 		}
 		return puzzle;
 	}
+	
+	/*  
+	   To store EightPuzzle's in a set,
+	   we need to implement a hash function.
+	   In this hash function no two different
+	   puzzles share the same hash.
+	   
+	   Unused 4 bits
+	   /  \
+	   0000 001 010 000 000 000 000 000 000 0001
+	   		\ /
+	   		 |
+	   The first non-blank
+	   piece on the board
+	 
+	   Each of the 3 bit %things*
+	   stores a tile on the board.
+	   It is the tile number - 1,
+	   so that 8 -> 111 rather than
+	   8 -> 000.
+	 
+	   The last 4 bits stores the position of
+	   the blank tile (from 0 to 8).
+	   
+	   | 4 | 7 | 3 |
+	   | X | 5 | 6 |
+	   | 8 | 1 | 2 |
+	   
+	   This puzzle is hashed as:
+	   0000 011 110 010 100 101 111 000 001 0011
+	         4   7   3   5   6   8   1   2  Position 3
+	*/ 
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		
+		for (int i = 0; i < m_board.length; i++) {
+			int tile = m_board[i];
+			
+			// Add the tiles that aren't empty
+			if (tile != 0) {
+				hash |= (tile - 1); // From 0-7, so that 8 isn't 000
+				hash <<= 3; // Since 0-7 only needs 3 bits
+			}
+		}
+		
+		// Make room for the positon, which is 4 bits
+		hash <<= 1;
+		
+		hash |= m_blankPosition;
+		
+		return hash;
+	}
 
 	/**
 	 * Creates a randomised eight puzzle.
