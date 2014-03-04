@@ -4,13 +4,18 @@ import java.util.LinkedList;
 
 import rp13.search.util.ActionStatePair;
 
-public class Node<StateT, ActionT>
+public class Node<StateT, ActionT> implements Comparable<Node<StateT, ActionT>>
 {
 	private Node<StateT, ActionT> parent;
 
 	private StateT state;
 	private ActionT action;
 
+	// DELETE THIS HACKERY!!!!
+	private Heuristic<ActionT, StateT> h;
+	private StateT goal;
+	
+	
 	/**
 	 * This creates an initial state node. Otherwise it would require the
 	 * previous node and an action which was required to get here. This
@@ -67,6 +72,26 @@ public class Node<StateT, ActionT>
 			actionList.addFirst(action); // Push action to front
 			parent.getActionArray(actionList);
 		}
+	}
+	
+	public void setHeuristic(Heuristic<ActionT, StateT> h)
+	{
+		this.h = h;
+	}
+	
+	public void setGoal(StateT goal)
+	{
+		this.goal = goal;
+	}
+
+	public int getNodeValue()
+	{
+		return h.calculateCost(this, goal);
+	}
+
+	@Override
+	public int compareTo(Node<StateT, ActionT> that) {
+		return this.getNodeValue() - that.getNodeValue();
 	}
 	
 	/*public boolean equals(Object _that)
