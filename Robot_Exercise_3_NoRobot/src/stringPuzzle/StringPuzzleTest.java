@@ -25,11 +25,11 @@ public class StringPuzzleTest
 				new StringPuzzleSuccessorFunction(),
 				new EqualityGoalTest<String>(goal));
 
-		//Node<String, StringMove> node = search.search(SearchType.BFS, start);
+		Node<String, StringMove> node = search.search(SearchType.BFS, start, 20);
 
-		String hi = search.search(new StringPuzzleHeuristic(), start);
+		//String hi = search.search(new StringPuzzleHeuristic(), start);
 		
-		/*
+		
 		System.out.println("Solution found!\n");
 
 		System.out.println("Depth: " + node.getDepth(0));
@@ -44,6 +44,5 @@ public class StringPuzzleTest
 		{
 			System.out.println(i.toString());
 		}
-		*/
 	}
 }

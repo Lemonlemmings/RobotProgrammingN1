@@ -10,8 +10,8 @@ public class StringMove
 
 	public StringMove(int a, int b)
 	{
-		assert (a < 0);
-		assert (b < 0);
+		assert (a >= 0);
+		assert (b >= 0);
 
 		this.a = a;
 		this.b = b;
