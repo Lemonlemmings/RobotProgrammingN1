@@ -62,7 +62,7 @@ public class Node<StateT, ActionT>
 	{
 		if (!(parent == null))
 		{
-			actionList.add(action);
+			actionList.addFirst(action); // Push action to front
 			parent.getActionArray(actionList);
 		}
 	}

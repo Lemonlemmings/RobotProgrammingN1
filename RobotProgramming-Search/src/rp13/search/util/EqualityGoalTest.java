@@ -25,4 +25,8 @@ public class EqualityGoalTest<StateT> implements GoalTest<StateT>
 		return m_goal.equals(_state);
 	}
 
+	public StateT getGoal()
+	{
+		return m_goal;
+	}
 }
