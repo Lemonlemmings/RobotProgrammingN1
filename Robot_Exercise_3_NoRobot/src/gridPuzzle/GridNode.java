@@ -19,6 +19,12 @@ public class GridNode
 		linkedNodes = new ArrayList<ActionStatePair<Direction, GridNode>>(4);
 	}
 	
+	@Override
+	public String toString()
+	{
+		return "(" + x + ", " + y + ")";
+	}
+	
 	public void addNode(Direction dir, GridNode node)
 	{
 		linkedNodes.add(new ActionStatePair<Direction, GridNode>(dir, node));

@@ -16,10 +16,6 @@ public class CoordinatePair
 	@Override
 	public boolean equals(Object obj)
 	{
-	//	if (this.x1 != that.x1)
-		
-		System.out.println("MOO");
-		
 		if (!(obj instanceof CoordinatePair))
 		{
 			return false;
@@ -44,18 +40,5 @@ public class CoordinatePair
 		}
 		
 		return false;
-		
-		
-		
-		
-		// less cryptic
-		/*return (this.x1 == that.x1
-		     && this.y1 == that.y1
-		     && this.x2 == that.x2
-		     && this.y2 == that.y2)
-		    || (this.x1 == that.x2
-		     && this.y1 == that.y2
-		     && this.x2 == that.x1
-		     && this.y2 == that.y1);*/
 	}
 }

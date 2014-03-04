@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import rp13.search.interfaces.SuccessorFunction;
+import rp13.search.util.EqualityGoalTest;
 import search.Node;
-import search.UninformedSearch;
-import search.UninformedSearchType;
+import search.Search;
+import search.Search.SearchType;
 import Part3.Direction;
 
 public class GridPuzzleTest
@@ -65,15 +66,12 @@ public class GridPuzzleTest
 		System.out.println(goal);
 		
 		SuccessorFunction<Direction, GridNode> successorFn =
-		new GridPuzzleSuccessorFunction();
+				new GridPuzzleSuccessorFunction();
 		
-		UninformedSearchType searchType =
-		UninformedSearchType.BFS;
+		Search<GridNode, Direction> search =
+				new Search<GridNode, Direction>(successorFn, new EqualityGoalTest<GridNode>(goal));
 		
-		UninformedSearch<GridNode, Direction> search =
-		new UninformedSearch<GridNode, Direction>(searchType, successorFn, start, goal);
-		
-		Node<GridNode, Direction> node = search.search();
+		Node<GridNode, Direction> node = search.search(SearchType.BFS, start, 6*4);
 		
 		System.out.println("Solution found!\n");
 		

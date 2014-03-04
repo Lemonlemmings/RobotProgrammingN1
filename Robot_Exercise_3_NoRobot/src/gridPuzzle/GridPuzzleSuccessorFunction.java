@@ -17,8 +17,6 @@ public class GridPuzzleSuccessorFunction implements SuccessorFunction<Direction,
 		
 		for (ActionStatePair<Direction, GridNode> newNode : successors)
 		{
-			//CoordinatePair pair = new CoordinatePair(node.getX(), node.getY(), newNode.getX(), newNode.getY());
-			
 			frontier.add(newNode);
 		}
 	}
