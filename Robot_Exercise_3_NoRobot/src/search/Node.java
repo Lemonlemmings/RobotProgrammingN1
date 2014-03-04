@@ -2,6 +2,8 @@ package search;
 
 import java.util.LinkedList;
 
+import rp13.search.util.ActionStatePair;
+
 public class Node<StateT, ActionT>
 {
 	private Node<StateT, ActionT> parent;
@@ -66,4 +68,17 @@ public class Node<StateT, ActionT>
 			parent.getActionArray(actionList);
 		}
 	}
+	
+	/*public boolean equals(Object _that)
+	{
+		if(_that instanceof Node)
+		{
+			Node<?, ?> that = (Node<?, ?>) _that;
+			return (this.getState().equals(that.getState())) && (this.getAction().equals(that.getAction())) && (this.getParent().equals(that.getParent()));
+		}
+		else
+		{
+			return false;
+		}
+	}*/
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Robot_Exercise_3_NoRobot by packages]">
+  <test name="search(failed)">
+    <classes>
+      <class name="search.NodeTest">
+        <methods>
+          <include name="testConstructor"/>
+        </methods>
+      </class> <!-- search.NodeTest -->
+    </classes>
+  </test> <!-- search(failed) -->
+</suite> <!-- Failed suite [Robot_Exercise_3_NoRobot by packages] -->

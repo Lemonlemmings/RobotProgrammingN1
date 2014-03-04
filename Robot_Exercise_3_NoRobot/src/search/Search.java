@@ -52,9 +52,9 @@ public class Search<StateT, ActionT>
 	 * @return The node with a path to its parents if a goal is found, otherwise
 	 *         null if all possible states have been exhausted.
 	 */
-	public Node<StateT, ActionT> search(SearchType searchType,StateT initialState)
+	public Node<StateT, ActionT> search(SearchType searchType, StateT initialState, int maxDepth)
 	{
-		return uninformedSearch(searchType, initialState);		
+		return uninformedSearch(searchType, initialState, maxDepth);		
 	}
 	
 	public StateT search(Heuristic heur, StateT initialState)
@@ -64,7 +64,7 @@ public class Search<StateT, ActionT>
 	}
 
 	private Node<StateT, ActionT> uninformedSearch(SearchType searchType,
-			StateT initialState)
+			StateT initialState, int maxDepth)
 	{
 		// Frontier list
 		frontier = new LinkedList<Node<StateT, ActionT>>();
@@ -95,7 +95,7 @@ public class Search<StateT, ActionT>
 			}
 
 			// Otherwise generate successors
-			if (node.getDepth(0) <= 10)
+			if (node.getDepth(0) <= maxDepth)
 			{
 				List<ActionStatePair<ActionT, StateT>> expanded = new LinkedList<ActionStatePair<ActionT, StateT>>();
 				successorFn.getSuccessors(node.getState(), expanded);
