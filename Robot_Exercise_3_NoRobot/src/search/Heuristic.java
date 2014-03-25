@@ -1,11 +1,8 @@
 package search;
 
-import rp13.search.util.ActionStatePair;
-import rp13.search.util.EqualityGoalTest;
 
-public interface Heuristic<ActionT, StateT>
+public interface Heuristic<StateT, ActionT>
 {
-	int calculateCost(ActionStatePair<ActionT, StateT> node,
-					  EqualityGoalTest<StateT> goal,
-					  int cost);
+	int calculateCost(Node<StateT, ActionT> node,
+					  EqualityGoalTest<StateT> equalityGoalTest);
 }

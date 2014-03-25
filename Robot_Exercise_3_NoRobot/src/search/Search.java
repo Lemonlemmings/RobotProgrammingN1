@@ -1,14 +1,12 @@
 package search;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import rp13.search.interfaces.SuccessorFunction;
-import rp13.search.util.ActionStatePair;
-import rp13.search.util.EqualityGoalTest;
 
 public class Search<StateT, ActionT>
 {
@@ -19,7 +17,6 @@ public class Search<StateT, ActionT>
 	}
 
 	private Deque<Node<StateT, ActionT>> frontier;
-	private List<ActionT> actionsP;
 	LinkedList<ActionStatePair<ActionT, StateT>> closed = new LinkedList<ActionStatePair<ActionT, StateT>>();
 	private Set<StateT> explored;
 
@@ -57,14 +54,12 @@ public class Search<StateT, ActionT>
 		return uninformedSearch(searchType, initialState, maxDepth);		
 	}
 	
-	public StateT search(Heuristic heur, StateT initialState)
+	public Node<StateT, ActionT> search(Heuristic<StateT, ActionT> heur, StateT initialState)
 	{
-		actionsP = new LinkedList<ActionT>();
-		return nextAStar(0, new ActionStatePair<ActionT, StateT>(null, initialState), heur);
+		return informedSearch(initialState, heur);
 	}
 
-	private Node<StateT, ActionT> uninformedSearch(SearchType searchType,
-			StateT initialState, int maxDepth)
+	private Node<StateT, ActionT> uninformedSearch(SearchType searchType,StateT initialState, int maxDepth)
 	{
 		// Frontier list
 		frontier = new LinkedList<Node<StateT, ActionT>>();
@@ -119,74 +114,53 @@ public class Search<StateT, ActionT>
 		// If there is no solution
 		return null;
 	}
-
-	private StateT nextAStar(int d, ActionStatePair<ActionT, StateT> node,	Heuristic heur)
+	
+	private Node<StateT, ActionT> informedSearch(StateT initialState, Heuristic<StateT, ActionT> heur)
 	{
-		LinkedList<ActionStatePair<ActionT, StateT>> open = new LinkedList<ActionStatePair<ActionT, StateT>>();
+		// Frontier list
+		ArrayList<Node<StateT, ActionT>> frontierA = new ArrayList<Node<StateT, ActionT>>();
+		frontierA.add(new Node<StateT, ActionT>(initialState));
 
-		if(closed.contains(node))
+		// Explored set
+		explored = new HashSet<StateT>();
+		explored.add(initialState);
+
+		// Search loop
+		while (!frontierA.isEmpty())
 		{
-			System.out.println("Bqalls");
-		}
-		else
-		{
-			closed.add(node);
-		}
-		
-		actionsP.add(node.getAction());
+			Collections.sort(frontierA);//Sorts thus is A*
+			
+			
+			// Retrieve node from frontier
+			Node<StateT, ActionT> node = frontierA.remove(0);
 
-		if (goalTest.isGoal(node.getState()))
-		{
-			return node.getState();
-		} 
-		else
-		{
-			open.clear();
-			successorFn.getSuccessors(node.getState(), open);
-		}
-
-		while (!open.isEmpty())
-		{
-
-			//closed.add(open.get(open.size() - 1));
-
-			ActionStatePair<ActionT, StateT> nextNode = nextNode(d, open, closed, heur);
-
-			System.out.println(nextNode.toString());
-
-			StateT complete = nextAStar(d + 1, nextNode, heur);
-
-			if (goalTest.isGoal(complete))
-			{
-
-				return complete;
-			}
-		}
-
-		return null;
-	}
-
-	private ActionStatePair<ActionT, StateT> nextNode(int d,
-			LinkedList<ActionStatePair<ActionT, StateT>> open,
-			LinkedList<ActionStatePair<ActionT, StateT>> closed, Heuristic heur)
-	{
-		ActionStatePair<ActionT, StateT> node = open.get(0);
-		int lowVal = 10;
-		
-		for (int i = 0; i < open.size(); i++)
-		{		
-			node = open.get(i);
-			lowVal = Math.min(heur.calculateCost(node, goalTest, d), lowVal);
-			if(closed.contains(node))
-			{			
-			}			
-			else// (( < lowestcost)	&& (!(closed.contains(node))))
+			// Are we at the goal?
+			if (goalTest.isGoal(node.getState()))
 			{
 				return node;
 			}
+
+			// Otherwise generate successors
+			List<ActionStatePair<ActionT, StateT>> expanded = new LinkedList<ActionStatePair<ActionT, StateT>>();
+			successorFn.getSuccessors(node.getState(), expanded);
+
+			// Add unexplored successors to frontier
+			for (ActionStatePair<ActionT, StateT> child : expanded)
+			{
+				// Have we explored this state already?
+				if (!explored.contains(child.getState()))
+				{
+					// If not, we have now
+					explored.add(child.getState());
+
+					// Also put the new node in the frontier
+					frontierA.add(new Node<StateT, ActionT>(node, child.getState(), child.getAction(), heur, goalTest));
+				}
+			}
 		}
 
-		return node;
+		// If there is no solution
+		return null;
 	}
 }
 

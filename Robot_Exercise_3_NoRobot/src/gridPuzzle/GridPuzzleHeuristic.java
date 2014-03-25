@@ -1,15 +1,12 @@
 package gridPuzzle;
 
-import rp13.search.util.ActionStatePair;
-import rp13.search.util.EqualityGoalTest;
+import search.EqualityGoalTest;
 import search.Heuristic;
-import Part3.Direction;
+import search.Node;
 
-public class GridPuzzleHeuristic implements Heuristic<Direction, GridNode>
+public class GridPuzzleHeuristic implements Heuristic<GridNode, Direction>
 {
-	@Override
-	public int calculateCost(ActionStatePair<Direction, GridNode> node,
-			EqualityGoalTest<GridNode> goal, int cost)
+	public int calculateCost(Node<GridNode, Direction> node,	EqualityGoalTest<GridNode> goal)
 	{
 		
 		int x1 = node.getState().getX();
@@ -21,7 +18,7 @@ public class GridPuzzleHeuristic implements Heuristic<Direction, GridNode>
 		// Get the Manhattan distance from the node to the goal
 		int manhattan = Math.abs(x1 - x2) + Math.abs(y1 - y2);
 		
-		return cost + manhattan;
+		return manhattan + node.getDepth(0);
 	}
 
 }

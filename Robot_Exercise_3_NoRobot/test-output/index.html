@@ -48,7 +48,7 @@
               <ul>
                 <li>
                   <a href="#" class="navigator-link " panel-name="test-xml-Default_suite">
-                    <span>C:\Users\Lemonlemmings\AppData\Local\Temp\testng-eclipse-1597473446\testng-customsuite.xml</span>
+                    <span>C:\Users\Lemonlemmings\AppData\Local\Temp\testng-eclipse-1678850827\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -90,7 +90,7 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">2 methods,   2 passed</span>
+                    <span class="method-stats">3 methods,   3 passed</span>
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -99,6 +99,11 @@
                       <a href="#" panel-name="suite-Default_suite" class="show-methods passed suite-Default_suite"> (show)</a> <!-- show-methods passed suite-Default_suite -->
                     </span>
                     <div class="method-list-content passed suite-Default_suite">
+                      <span>
+                        <img width="3%" src="passed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="search.SearchTest" hash-for-method="testAstar">testAstar</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
                       <span>
                         <img width="3%" src="passed.png"/>
                         <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="search.SearchTest" hash-for-method="testBFS">testBFS</a> <!-- method navigator-link -->
@@ -129,6 +134,13 @@
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
+                  <a name="testAstar">
+                  </a> <!-- testAstar -->
+                  <span class="method-name">testAstar</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
                   <a name="testBFS">
                   </a> <!-- testBFS -->
                   <span class="method-name">testBFS</span>
@@ -146,7 +158,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\Lemonlemmings\AppData\Local\Temp\testng-eclipse-1597473446\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\Lemonlemmings\AppData\Local\Temp\testng-eclipse-1678850827\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -195,20 +207,24 @@ data.addColumn('number', 'Number');
 data.addColumn('string', 'Method');
 data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
-data.addRows(2);
+data.addRows(3);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'testBFS')
 data.setCell(0, 2, 'search.SearchTest')
-data.setCell(0, 3, 6261);
+data.setCell(0, 3, 6070);
 data.setCell(1, 0, 1)
-data.setCell(1, 1, 'testDFS')
+data.setCell(1, 1, 'testAstar')
 data.setCell(1, 2, 'search.SearchTest')
-data.setCell(1, 3, 435);
+data.setCell(1, 3, 3918);
+data.setCell(2, 0, 2)
+data.setCell(2, 1, 'testDFS')
+data.setCell(2, 2, 'search.SearchTest')
+data.setCell(2, 3, 47);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 6 seconds</span>
+              <span class="suite-total-time">Total running time: 10 seconds</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -235,21 +251,17 @@ return data;
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
               <div class="chronological-class-name">search.SearchTest</div> <!-- chronological-class-name -->
-              <div class="configuration-method before">
-                <span class="method-name">setUp</span>
+              <div class="test-method">
+                <span class="method-name">testAstar</span>
                 <span class="method-start">0 ms</span>
-              </div> <!-- configuration-method before -->
+              </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">testBFS</span>
-                <span class="method-start">4 ms</span>
+                <span class="method-start">3919 ms</span>
               </div> <!-- test-method -->
-              <div class="configuration-method before">
-                <span class="method-name">setUp</span>
-                <span class="method-start">6266 ms</span>
-              </div> <!-- configuration-method before -->
               <div class="test-method">
                 <span class="method-name">testDFS</span>
-                <span class="method-start">6266 ms</span>
+                <span class="method-start">9990 ms</span>
               </div> <!-- test-method -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

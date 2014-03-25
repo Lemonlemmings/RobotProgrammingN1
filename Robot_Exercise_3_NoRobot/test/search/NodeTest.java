@@ -6,8 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import rp13.search.problem.puzzle.EightPuzzle;
-import rp13.search.problem.puzzle.EightPuzzle.PuzzleMove;
+import eightPuzzle.EightPuzzle;
+import eightPuzzle.EightPuzzle.PuzzleMove;
 
 @Test
 public class NodeTest

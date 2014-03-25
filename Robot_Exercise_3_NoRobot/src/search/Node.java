@@ -2,8 +2,6 @@ package search;
 
 import java.util.LinkedList;
 
-import rp13.search.util.ActionStatePair;
-
 public class Node<StateT, ActionT> implements Comparable<Node<StateT, ActionT>>
 {
 	private Node<StateT, ActionT> parent;
@@ -12,8 +10,8 @@ public class Node<StateT, ActionT> implements Comparable<Node<StateT, ActionT>>
 	private ActionT action;
 
 	// DELETE THIS HACKERY!!!!
-	private Heuristic<ActionT, StateT> h;
-	private StateT goal;
+	private Heuristic<StateT, ActionT> h;
+	private EqualityGoalTest<StateT> goal;
 	
 	
 	/**
@@ -29,6 +27,8 @@ public class Node<StateT, ActionT> implements Comparable<Node<StateT, ActionT>>
 		this.state = state;
 		this.action = null;
 		this.parent = null;
+		this.h = null;
+		this.goal = null;
 	}
 
 	public Node(Node<StateT, ActionT> parent, StateT state, ActionT action)
@@ -36,6 +36,17 @@ public class Node<StateT, ActionT> implements Comparable<Node<StateT, ActionT>>
 		this.parent = parent;
 		this.state = state;
 		this.action = action;
+		this.h = null;
+		this.goal = null;
+	}
+	
+	public Node(Node<StateT, ActionT> parent, StateT state, ActionT action, Heuristic<StateT, ActionT> h, EqualityGoalTest<StateT> goal)
+	{
+		this.parent = parent;
+		this.state = state;
+		this.action = action;
+		this.h = h;
+		this.goal = goal;
 	}
 
 	public Node<StateT, ActionT> getParent()
@@ -73,24 +84,14 @@ public class Node<StateT, ActionT> implements Comparable<Node<StateT, ActionT>>
 			parent.getActionArray(actionList);
 		}
 	}
-	
-	public void setHeuristic(Heuristic<ActionT, StateT> h)
-	{
-		this.h = h;
-	}
-	
-	public void setGoal(StateT goal)
-	{
-		this.goal = goal;
-	}
 
 	public int getNodeValue()
 	{
 		return h.calculateCost(this, goal);
 	}
 
-	@Override
-	public int compareTo(Node<StateT, ActionT> that) {
+	public int compareTo(Node<StateT, ActionT> that) 
+	{
 		return this.getNodeValue() - that.getNodeValue();
 	}
 	

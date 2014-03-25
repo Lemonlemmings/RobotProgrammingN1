@@ -1,11 +1,11 @@
 package stringPuzzle;
 
-import rp13.search.util.ActionStatePair;
-import rp13.search.util.EqualityGoalTest;
+import search.EqualityGoalTest;
 import search.Heuristic;
+import search.Node;
 import stringPuzzle.StringMove;
 
-public class StringPuzzleHeuristic implements Heuristic<StringMove, String>
+public class StringPuzzleHeuristic implements Heuristic<String, StringMove>
 {
 
 	/*
@@ -17,21 +17,21 @@ public class StringPuzzleHeuristic implements Heuristic<StringMove, String>
 	 * @see search.Heuristic#calculateCost(rp13.search.util.ActionStatePair,
 	 * rp13.search.util.EqualityGoalTest, int)
 	 */
-	public int calculateCost(ActionStatePair<StringMove, String> node,	EqualityGoalTest<String> goal, int cost)
+	public int calculateCost(Node<String, StringMove> node,	EqualityGoalTest<String> goal)
 	{
 
-		int similarity = goal.toString().length() - 1;
+		int differences = 0;
 
 		for (int i = 0; i < node.getState().length(); i++)
 		{
 
-			if (node.getState().charAt(i) == goal.toString().charAt(i))
+			if (!(node.getState().charAt(i) == goal.toString().charAt(i)))
 			{
 
-				similarity--;
+				differences++;
 			}
 		}
 
-		return similarity;
+		return differences + node.getDepth(0);
 	}
 }

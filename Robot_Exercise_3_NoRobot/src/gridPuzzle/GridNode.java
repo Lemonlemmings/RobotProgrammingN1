@@ -2,8 +2,7 @@ package gridPuzzle;
 
 import java.util.ArrayList;
 
-import Part3.Direction;
-import rp13.search.util.ActionStatePair;
+import search.ActionStatePair;
 
 public class GridNode
 {
@@ -19,7 +18,6 @@ public class GridNode
 		linkedNodes = new ArrayList<ActionStatePair<Direction, GridNode>>(4);
 	}
 	
-	@Override
 	public String toString()
 	{
 		return "(" + x + ", " + y + ")";

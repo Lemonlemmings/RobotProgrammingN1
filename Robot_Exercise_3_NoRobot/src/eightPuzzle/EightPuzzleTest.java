@@ -2,10 +2,8 @@ package eightPuzzle;
 
 import java.util.LinkedList;
 
-import rp13.search.problem.puzzle.EightPuzzle;
-import rp13.search.problem.puzzle.EightPuzzle.PuzzleMove;
-import rp13.search.problem.puzzle.EightPuzzleSuccessorFunction;
-import rp13.search.util.EqualityGoalTest;
+import eightPuzzle.EightPuzzle.PuzzleMove;
+import search.EqualityGoalTest;
 import search.Node;
 import search.Search;
 import search.Search.SearchType;
@@ -28,7 +26,8 @@ public class EightPuzzleTest
 												 new EightPuzzleSuccessorFunction(),
 												 new EqualityGoalTest<EightPuzzle>(goal));
 
-		Node<EightPuzzle, PuzzleMove> node = search.search(SearchType.BFS, start, 31);
+		Node<EightPuzzle, PuzzleMove> node = search.search(SearchType.DFS, start, 31);
+		//Node<EightPuzzle, PuzzleMove> node = search.search(new EightPuzzleHeuristic(), start);
 		System.out.println("Solution found!\n");
 
 		System.out.println("Depth: " + node.getDepth(0));

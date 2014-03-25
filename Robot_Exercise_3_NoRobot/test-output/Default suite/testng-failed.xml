@@ -6,7 +6,6 @@
       <class name="search.SearchTest">
         <methods>
           <include name="testDFS"/>
-          <include name="setUp"/>
         </methods>
       </class> <!-- search.SearchTest -->
     </classes>

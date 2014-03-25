@@ -2,8 +2,6 @@ package gridPuzzle;
 
 import java.util.ArrayList;
 
-import Part3.Direction;
-
 public class GridPuzzle
 {
 	private GridNode[][] map;

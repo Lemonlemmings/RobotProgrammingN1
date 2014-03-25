@@ -2,15 +2,13 @@ package stringPuzzle;
 
 import java.util.List;
 
-import rp13.search.interfaces.SuccessorFunction;
-import rp13.search.util.ActionStatePair;
+import search.ActionStatePair;
+import search.SuccessorFunction;
 
 public class StringPuzzleSuccessorFunction implements SuccessorFunction<StringMove, String>
 {
 
-	@Override
-	public void getSuccessors(String str,
-			List<ActionStatePair<StringMove, String>> successors)
+	public void getSuccessors(String str, List<ActionStatePair<StringMove, String>> successors)
 	{
 		assert (successors != null);
 		

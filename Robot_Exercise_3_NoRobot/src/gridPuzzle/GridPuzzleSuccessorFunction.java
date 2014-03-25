@@ -3,15 +3,12 @@ package gridPuzzle;
 import java.util.ArrayList;
 import java.util.List;
 
-import rp13.search.interfaces.SuccessorFunction;
-import rp13.search.util.ActionStatePair;
-import Part3.Direction;
+import search.ActionStatePair;
+import search.SuccessorFunction;
 
 public class GridPuzzleSuccessorFunction implements SuccessorFunction<Direction, GridNode>
 {
-	@Override
-	public void getSuccessors(GridNode node,
-			List<ActionStatePair<Direction, GridNode>> frontier)
+	public void getSuccessors(GridNode node, List<ActionStatePair<Direction, GridNode>> frontier)
 	{
 		ArrayList<ActionStatePair<Direction, GridNode>> successors = node.getNodes();
 		

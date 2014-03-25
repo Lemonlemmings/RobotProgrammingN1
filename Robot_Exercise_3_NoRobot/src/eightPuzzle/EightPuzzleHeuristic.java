@@ -1,12 +1,11 @@
 package eightPuzzle;
 
-import rp13.search.problem.puzzle.EightPuzzle;
-import rp13.search.problem.puzzle.EightPuzzle.PuzzleMove;
-import rp13.search.util.ActionStatePair;
-import rp13.search.util.EqualityGoalTest;
+import eightPuzzle.EightPuzzle.PuzzleMove;
+import search.EqualityGoalTest;
 import search.Heuristic;
+import search.Node;
 
-public class EightPuzzleHeuristic implements Heuristic<PuzzleMove, EightPuzzle>
+public class EightPuzzleHeuristic implements Heuristic<EightPuzzle, PuzzleMove>
 {
 
 	/*
@@ -18,19 +17,20 @@ public class EightPuzzleHeuristic implements Heuristic<PuzzleMove, EightPuzzle>
 	 * @see search.Heuristic#calculateCost(rp13.search.util.ActionStatePair,
 	 * rp13.search.util.EqualityGoalTest, int)
 	 */
-	public int calculateCost(ActionStatePair<PuzzleMove, EightPuzzle> node,	EqualityGoalTest<EightPuzzle> goal, int cost)
+	public int calculateCost(Node<EightPuzzle, PuzzleMove> node, EqualityGoalTest<EightPuzzle> goal)
 	{
-		int similarity = 9;
-
-		for (int i = 0; i < goal.toString().length(); i++)
+		int similarity = 0;
+		int[] cBoard = node.getState().getBoard();
+		int[] gBoard = goal.getGoal().getBoard();
+		
+		for(int i = 0; i < cBoard.length; i++)
 		{
-
-			if (node.toString().charAt(i) == goal.toString().charAt(i))
+			if(cBoard[i] == gBoard[i])
 			{
-				similarity--;
+				similarity++;
 			}
 		}
-
-		return similarity;
+		
+		return (9 - similarity) + node.getDepth(0);
 	}
 }
