@@ -8,6 +8,7 @@ import search.Node;
 import search.Search;
 import search.Search.SearchType;
 import search.SuccessorFunction;
+import utils.Deque;
 
 public class GridPuzzleTest
 {
@@ -80,7 +81,7 @@ public class GridPuzzleTest
 		System.out.println("Depth: " + node.getDepth(0));
 		System.out.println();
 
-		LinkedList<Direction> actions = new LinkedList<Direction>();
+		Deque<Direction> actions = new Deque<Direction>();
 		node.getActionArray(actions);
 
 		System.out.println("Actions:");
