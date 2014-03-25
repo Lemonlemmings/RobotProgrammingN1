@@ -2,6 +2,8 @@ package search;
 
 import java.util.LinkedList;
 
+import utils.Deque;
+
 public class Node<StateT, ActionT> implements Comparable<Node<StateT, ActionT>>
 {
 	private Node<StateT, ActionT> parent;
@@ -76,21 +78,12 @@ public class Node<StateT, ActionT> implements Comparable<Node<StateT, ActionT>>
 		return action;
 	}
 
-	public void getActionArray(LinkedList<ActionT> actionList)
+	public void getActionArray(Deque<ActionT> actionList)
 	{
 		if (!(parent == null))
 		{
-			actionList.add(action); // Push action to front
+			actionList.addFirst(action); // Push action to front
 			parent.getActionArray(actionList);
-		}
-		else
-		{
-			LinkedList<ActionT> reverseList = new LinkedList<ActionT>();
-			for(int i = actionList.size(); i > -1; i--)
-			{
-				reverseList.add(actionList.remove(i));
-			}
-			actionList = reverseList;
 		}
 	}
 
