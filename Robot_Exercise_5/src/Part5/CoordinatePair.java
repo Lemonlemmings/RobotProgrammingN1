@@ -1,5 +1,8 @@
 package Part5;
 
+/**
+ * A container for a pair of coordinates
+ */
 public class CoordinatePair
 {
 	public int x1, y1, x2, y2;

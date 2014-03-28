@@ -40,11 +40,6 @@ public class GridRunnable implements Runnable {
 	private LightSensor l_light;
 	private LightSensor r_light;
 
-	// Setting up the enumerator for the path
-	private ArrayList<Direction> path = new ArrayList<Direction>();
-
-	// Setting up "final" values used within the program
-	private boolean m_run;
 	private final int darkNum = 15;
 
 	// Setting up the booleans which are triggered by the SensorListeners
@@ -56,9 +51,9 @@ public class GridRunnable implements Runnable {
 	private boolean l_cal;
 	private boolean h_cal;
 
-	private Random rand = new Random(42);
+	private Random rand = new Random();
 
-	private OpticalDistanceSensor optical = new OpticalDistanceSensor(
+	private final OpticalDistanceSensor optical = new OpticalDistanceSensor(
 			SensorPort.S3);
 
 	/*
@@ -71,8 +66,6 @@ public class GridRunnable implements Runnable {
 		pilot = new DifferentialPilot(300, 1720, Motor.A, Motor.B, false);
 		l_light = new LightSensor(SensorPort.S1);
 		r_light = new LightSensor(SensorPort.S2);
-
-		m_run = true;
 
 		l_dark = false;
 		r_dark = false;
@@ -103,11 +96,15 @@ public class GridRunnable implements Runnable {
 		// }
 	}
 
-	private int sample(int num) {
+	// Get the average value from the distance sensor
+	private int sample(int num)
+	{
 		int sum = 0;
 
 		for (int i = 0; i < num; i++) {
 			sum += optical.getDistance();
+			
+			// Wait a small amount of time between readings
 			Delay.msDelay(10);
 		}
 
@@ -216,18 +213,12 @@ public class GridRunnable implements Runnable {
 		
 		Sound.beep();
 		
-		// Localises and gets the position
+		// Localises and gets the position of the robot
 		Coordinate position = localise();
-		//Coordinate position = new Coordinate(5, 1);
 		
+
+		// All of the maze walls as obstacles
 		ArrayList<CoordinatePair> blocked = new ArrayList<CoordinatePair>();
-		
-		
-		/*These are 'supposed' to be the blocked
-		parts of the maze, but I'm not 100% sure
-		that they are correct...*/
-		
-		//blocked.add(new CoordinatePair(3,0,3,1));
 		
 		blocked.add(new CoordinatePair(2,0,2,1));
 		blocked.add(new CoordinatePair(4,0,4,1));
@@ -269,18 +260,15 @@ public class GridRunnable implements Runnable {
 		blocked.add(new CoordinatePair(6,5,6,6));
 		blocked.add(new CoordinatePair(8,5,8,6));
 		
-		//blocked.add(new CoordinatePair(0,0,1,0));
-		
-		
-		
-		//System.out.println(blocked.contains(new CoordinatePair(1,3,1,2)));
-
-		
+		// Create the puzzle stuff
 		GridPuzzle puzzle = new GridPuzzle(11, 8, blocked);
 		
 		GridNode start = puzzle.get(position.getX(), position.getY());
 		GridNode goal  = puzzle.get(1, 5);
 
+
+		//Direction currDir;
+		 
 		System.out.println("Initial state:");
 		System.out.println(start);
 
@@ -291,28 +279,24 @@ public class GridRunnable implements Runnable {
 
 		Search<GridNode, Direction> search = new Search<GridNode, Direction>(successorFn, new EqualityGoalTest<GridNode>(goal));
 
-		//Node<GridNode, Direction> node = search.search(SearchType.BFS, start, 6 * 4);
+		// Run A* search in the maze
 		Node<GridNode, Direction> node = search.search(new GridPuzzleHeuristic(), start); 
+		
+		System.out.println("Solution found!\n");
 
-		
-		
-		
-		
-		
-		//System.out.println("Solution found!\n");
-
-		//System.out.println("Depth: " + node.getDepth(0));
-		//System.out.println();
+		System.out.println("Depth: " + node.getDepth(0));
+		System.out.println();
 
 		Deque<Direction> actions = new Deque<Direction>();
 		node.getActionArray(actions);
 		
-		LinkedList<Direction> MOVE = new LinkedList<Direction>();
+		LinkedList<Direction> relativeMoves = new LinkedList<Direction>();
 		
+		
+		// Print out the path
 		System.out.println("Actions:");
 		
-		//Direction currDir;
-		 
+		// Convert the move list from global to relative
 		for(Direction i : actions)
 		{
 			i = i.toRobot(i);
@@ -323,77 +307,23 @@ public class GridRunnable implements Runnable {
 				i = Direction.LEFT;
 			}  
 			
-			MOVE.add(i);
+			relativeMoves.add(i);
 			
 			if (i != Direction.UP) {
-				MOVE.add(Direction.UP);
+				// Also move forward when turning
+				relativeMoves.add(Direction.UP);
 			}
-			
-			//System.out.print(i + " ");
 		}
 		
-		for(Direction i : MOVE)
+		for(Direction i : relativeMoves)
 		{
 			System.out.print(i + " ");
 		}
+		
 		Sound.beepSequenceUp();
 		
-		search(MOVE);
-		
-		
-		
-		
-		start = puzzle.get(1, 5);
-		goal  = puzzle.get(1, 5);
-		
-		System.out.println("Initial state:");
-		System.out.println(start);
-
-		System.out.println("Goal state:");
-		System.out.println(goal);
-
-		search = new Search<GridNode, Direction>(successorFn, new EqualityGoalTest<GridNode>(goal));
-
-		//Node<GridNode, Direction> node = search.search(SearchType.BFS, start, 6 * 4);
-		node = search.search(new GridPuzzleHeuristic(), start); 
-		
-		actions = new Deque<Direction>();
-		node.getActionArray(actions);
-		
-		MOVE = new LinkedList<Direction>();
-		
-		System.out.println("Actions:");
-		
-		//Direction currDir;
-		 
-		for(Direction i : actions)
-		{
-			i = i.toRobot(i);
-			
-			if (i == Direction.LEFT) {
-				i = Direction.RIGHT;
-			} else if (i == Direction.RIGHT) {
-				i = Direction.LEFT;
-			}  
-			
-			MOVE.add(i);
-			
-			if (i != Direction.UP) {
-				MOVE.add(Direction.UP);
-			}
-			
-			//System.out.print(i + " ");
-		}
-		
-		for(Direction i : MOVE)
-		{
-			System.out.print(i + " ");
-		}
-		Sound.beepSequenceUp();
-		
-		search(MOVE);
-
-		
+		// Move to the goal state
+		move(relativeMoves);
 	}
 
 	public Coordinate max(GridPositionDistribution dist) {
@@ -420,11 +350,12 @@ public class GridRunnable implements Runnable {
 	/**
 	 * Localises the robot!
 	 */
-	public Coordinate localise() {
-
+	public Coordinate localise()
+	{
 		GridMap gridMap = LocalisationUtils.create2014Map1();
 		GridPositionDistribution distribution = new GridPositionDistribution(
 				gridMap);
+		
 		distribution.normalise();
 
 		PerfectActionModel actionModel = new PerfectActionModel();
@@ -489,6 +420,7 @@ public class GridRunnable implements Runnable {
 				return maxPoint;
 			}
 
+			// Turn in a random direction
 			boolean turnLeft = rand.nextBoolean();
 
 			while (sample(5) < 330) { // Keep rotating until there aren't any
@@ -531,16 +463,15 @@ public class GridRunnable implements Runnable {
 				Delay.msDelay(50);
 			}
 
-			Sound.beep();
+			// Remove probabilities
 			actionModel.rull(distribution, relativeToGrid);
-			Sound.beep();
 
 			pilot.forward();
 		}
-		// END
+
 	}
 
-	public Coordinate search(LinkedList<Direction> moves) {
+	public Coordinate move(LinkedList<Direction> moves) {
 		Heading relativeToGrid = Heading.PLUS_Y;
 
 		while (true) // Keep moving until its localised
