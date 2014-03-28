@@ -3,6 +3,7 @@ package gridPuzzle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import lejos.util.Delay;
 import search.EqualityGoalTest;
 import search.Node;
 import search.Search;
@@ -90,6 +91,8 @@ public class GridPuzzleTest
 		{
 			i = i.toRobot(i);
 			System.out.println(i);
+			
+			Delay.msDelay(1000);
 		}
 	}
 }
