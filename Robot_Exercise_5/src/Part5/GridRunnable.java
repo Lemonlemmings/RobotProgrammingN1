@@ -326,9 +326,9 @@ public class GridRunnable implements Runnable
 		return maxPoint;
 	}
 	
-	
-	
-	
+	/**
+	 * Localises the robot!
+	 */
 	public Coordinate localise()
 	{
 
@@ -338,12 +338,6 @@ public class GridRunnable implements Runnable
 		distribution.normalise();
 		
 		PerfectActionModel actionModel = new PerfectActionModel();
-		
-		
-		//pilot.forward();
-		
-        //The MAIN while statement. It simply checks for a junction, and then to see if it's gone over
-        //the line it's following
 		
 		Heading relativeToGrid = Heading.PLUS_Y;
 		
@@ -373,7 +367,7 @@ public class GridRunnable implements Runnable
 			System.out.println("Max Y: " + maxPoint.getY());
 			System.out.println("Prob: " + probability);
 			
-			if (probability > 0.75f) {
+			if (probability > 0.75f) { // We can assume that its localised now
 				
 				Sound.setVolume(Sound.VOL_MAX);
 				
@@ -403,12 +397,10 @@ public class GridRunnable implements Runnable
 				
 				return maxPoint;
 			}
-			
-			//swing();
 
 			boolean turnLeft = rand.nextBoolean();
 			
-			while (sample(5) < 330) {
+			while (sample(5) < 330) { // Keep rotating until there aren't any obstacles
 				turns++;
 				Sound.beepSequence();
 				actionModel.cull(distribution, relativeToGrid);
